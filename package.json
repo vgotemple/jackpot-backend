@@ -1,0 +1,19 @@
+{
+  "name": "jackpot-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node jackpot-server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eosjs": "20.0.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.4.1",
+    "node-fetch": "^2.6.0",
+    "request": "^2.88.0",
+    "socket.io": "^2.3.0"
+  }
+}
