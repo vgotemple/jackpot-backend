@@ -13,7 +13,9 @@ ___
 **Installation:**
 _Run following commands_
 > git clone https://github.com/vgotemple/jackpot-backend.git
+
 > cd jackpot-backend
+
 > npm i
 
 **Configure:**
