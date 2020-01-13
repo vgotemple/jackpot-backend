@@ -38,17 +38,11 @@ app.get("/jackpot", (req, res) => {
 app.get("/jackpot/history", async (req, res) => {
     let page = 1;
     try {
-        
     if (req.query.page) page = parseInt(req.query.page);
     } catch (err) {}
-    let lastGames = await this.DB.collection("jackpots").find({ status: jackpot.GameStatus.ROLLED}).sort({id: -1}).limit(15).skip(15 * (page-1)).toArray();
+    let lastGames = global.DB ? await global.DB.collection("jackpots").find({ status: jackpot.GameStatus.ROLLED}).sort({id: -1}).limit(15).skip(15 * (page-1)).toArray() : [];
     res.send(lastGames);
 })
-
-server.listen(port, err => {
-    if (err) throw new Error(err);
-    console.log("[Server]", "Socket and Web Connection started")
-});
 
 MongoClient.connect(config.database.url, {
     useNewUrlParser: true,
@@ -68,6 +62,12 @@ MongoClient.connect(config.database.url, {
     jackpot.start();
     global.JackpotGame = jackpot;
     transactions.registerHandler();
+});
+
+
+server.listen(port, err => {
+    if (err) throw new Error(err);
+    console.log("[Server]", "Socket and Web Connection started")
 });
 
 function socketManager () {
