@@ -5,7 +5,7 @@ module.exports = {
     },
     port: 1337, // Where the socket connection accessible
     blockchain: {
-        privateKey: "", // Private Key from for example scatter
+        privateKey: "", // Private Key for your wallet
         accountName: "", // Wallet Account Name (That manages the NFTs)
     },
     jackpot: {
