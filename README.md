@@ -12,10 +12,8 @@ ___
 
 **Installation:**
 _Run following commands_
-> git clone https://github.com/vgotemple/jackpot-backend.git
-
-> cd jackpot-backend
-
+> git clone https://github.com/vgotemple/jackpot-backend.git \
+> cd jackpot-backend\
 > npm i
 
 **Configure:**
@@ -45,6 +43,65 @@ module.exports = {
 **Start:**
 _Now start it with:_
 > npm start
+
+**Endpoints:**
+
+Socket:\
+Live socket.io connection: `http://127.0.0.1:1337/socket.io/`
+
+Jackpot:\
+Current Jackpot Information: `http://127.0.0.1:1337/jackpot/` \
+History Pots: `http://127.0.0.1:1337/jackpot/history`
+
+**nginx:**
+_Example config:_
+```nginx
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name yourdomain.com www.yourdomain.com; # configure your domain
+
+    root /var/www/yourdomain.com; # Link frontend files
+
+    index index.html;
+
+    location / {
+        # Link here to your front end if required:
+        try_files $uri $uri/ /index.html =404;
+    }
+
+    location /socket.io/ {
+        proxy_pass http://localhost:1337/socket.io/; # edit port here
+    }
+
+    location /jackpot/ {
+        proxy_pass http://localhost:1337/jackpot/; # edit port here
+    }
+}
+```
+_With the config:_
+
+Live socket.io connection: `https://yourdomain.com/socket.io/`\
+Current Jackpot Information: `https://yourdomain.com/jackpot/`\
+History Pots: `https://yourdomain.com/jackpot/history`
+
+
+**Socket Actions:**
+
+_On Connection:_ `socket.emit("jackpot_game", gameObject)`\
+_On client.on("jackpot\_game"):_ `socket.emit("jackpot_game", gameObject)`\
+_On client.on("ping", input):_ `socket.emit("pong", input)`
+
+Jackpot Interval:\
+_On Countdown:_ `socket.emit("jackpot_countdown", gameObject.countdown)`\
+_On Update:_ `socket.emit("jackpot_status", gameObject.status)`\
+_On Status Update:_ `socket.emit("jackpot_status", gameObject.status)`\
+_On Deposit:_ `socket.emit("jackpot_deposit", depositObject)`\
+_On Roll (When Spinner starts):_ `socket.emit("jackpot_winner", gameObject.winner)`\
+_On New Game:_ `socket.emit("jackpot_game", gameObject)`
+
+___
 
 **Objects:**
 
@@ -105,78 +162,3 @@ GameStatus:
     "ROLLED": 4,
 }
 ```
-
-**Endpoints:**
-
-Socket:
-
-Live socket.io connection: `http://127.0.0.1:1337/socket.io/`
-
-
-
-Jackpot:
-
-Current Jackpot Information: `http://127.0.0.1:1337/jackpot/` 
-
-History Pots: `http://127.0.0.1:1337/jackpot/history`
-
-**nginx:**
-_Example config:_
-```nginx
-server {
-    listen 80;
-    listen [::]:80;
-
-    server_name yourdomain.com www.yourdomain.com; # configure your domain
-
-    root /var/www/yourdomain.com; # Link frontend files
-
-    index index.html;
-
-    location / {
-        # Link here to your front end if required:
-        try_files $uri $uri/ /index.html =404;
-    }
-
-    location /socket.io/ {
-        proxy_pass http://localhost:1337/socket.io/; # edit port here
-    }
-
-    location /jackpot/ {
-        proxy_pass http://localhost:1337/jackpot/; # edit port here
-    }
-}
-```
-_With the config:_
-Live socket.io connection: `https://yourdomain.com/socket.io/`
-
-Current Jackpot Information: `https://yourdomain.com/jackpot/` 
-
-History Pots: `https://yourdomain.com/jackpot/history`
-
-
-**Socket Actions:**
-
-
-_On Connection:_ `socket.emit("jackpot_game", gameObject)`
-
-_On client.on("jackpot\_game"):_ `socket.emit("jackpot_game", gameObject)`
-
-_On client.on("ping", input):_ `socket.emit("pong", input)`
-
-
-Jackpot Interval:
-
-_On Countdown:_ `socket.emit("jackpot_countdown", gameObject.countdown)`
-
-_On Update:_ `socket.emit("jackpot_status", gameObject.status)`
-
-_On Status Update:_ `socket.emit("jackpot_status", gameObject.status)`
-
-_On Deposit:_ `socket.emit("jackpot_deposit", depositObject)`
-
-_On Roll (When Spinner starts):_ `socket.emit("jackpot_winner", gameObject.winner)`
-
-_On New Game:_ `socket.emit("jackpot_game", gameObject)`
-
-___
