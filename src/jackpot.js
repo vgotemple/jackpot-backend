@@ -173,7 +173,7 @@ function createGame () {
         status: GameStatus.WAITING_FOR_DEPOSITS,
         deposits: depositCache,
         worth: worth,
-        countdown: 30,
+        countdown: config.jackpot.countdownTime,
     };
     console.error("[Jackpot]", `New Game #${gameId} created.`);
     // reset cached deposits
@@ -286,7 +286,7 @@ function fetchLastJackpot () {
             // Check if its still active / waiting for outcome
             if (lastGame.status == GameStatus.WAITING_FOR_DEPOSITS || lastGame.status == GameStatus.COUNTDOWN || lastGame.status == GameStatus.WAITING_FOR_OUTCOME) {
                 currentGame = lastGame;
-                currentGame.countdown = 30;
+                currentGame.countdown = config.jackpot.countdownTime;
                 console.log("[Jackpot]", `#${currentGame.id}: Loaded last game`)
             } else {
                 // Create game if already rolled
