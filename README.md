@@ -49,7 +49,7 @@ _Now start it with:_
 **Objects:**
 
 Jackpot Game:
-```json
+```jsonc
 {
    "id": 1, // GameID
    "countdown": 60, // CountDown in seconds
@@ -69,7 +69,7 @@ Jackpot Game:
 ```
 
 Deposit:
-```json
+```jsonc
 {
     "accountName": "depositor.wam", // account that deposited the nft
     "nfts":
@@ -96,7 +96,7 @@ Deposit:
 ```
 
 GameStatus:
-```json
+```jsonc
 {
     "WAITING_FOR_DEPOSITS": 0,
     "COUNTDOWN": 1,
@@ -109,10 +109,15 @@ GameStatus:
 **Endpoints:**
 
 Socket:
+
 Live socket.io connection: `http://127.0.0.1:1337/socket.io/`
 
+
+
 Jackpot:
+
 Current Jackpot Information: `http://127.0.0.1:1337/jackpot/` 
+
 History Pots: `http://127.0.0.1:1337/jackpot/history`
 
 **nginx:**
@@ -144,22 +149,34 @@ server {
 ```
 _With the config:_
 Live socket.io connection: `https://yourdomain.com/socket.io/`
+
 Current Jackpot Information: `https://yourdomain.com/jackpot/` 
+
 History Pots: `https://yourdomain.com/jackpot/history`
 
 
 **Socket Actions:**
 
+
 _On Connection:_ `socket.emit("jackpot_game", gameObject)`
+
 _On client.on("jackpot\_game"):_ `socket.emit("jackpot_game", gameObject)`
+
 _On client.on("ping", input):_ `socket.emit("pong", input)`
 
+
 Jackpot Interval:
+
 _On Countdown:_ `socket.emit("jackpot_countdown", gameObject.countdown)`
+
 _On Update:_ `socket.emit("jackpot_status", gameObject.status)`
+
 _On Status Update:_ `socket.emit("jackpot_status", gameObject.status)`
+
 _On Deposit:_ `socket.emit("jackpot_deposit", depositObject)`
+
 _On Roll (When Spinner starts):_ `socket.emit("jackpot_winner", gameObject.winner)`
+
 _On New Game:_ `socket.emit("jackpot_game", gameObject)`
 
 ___
